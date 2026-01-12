@@ -28,8 +28,8 @@ std::vector<Track> TrackReconstructor::reconstruct() {
         t.hits = m_hits;      // copy hits
         tracks.push_back(t);
     }
-
-    // Missing: delete[] hitBuffer;
+ 
+    delete[] hitBuffer;
 
     return tracks;
 }
