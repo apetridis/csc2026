@@ -62,7 +62,7 @@ std::vector<Event> EventProcessor::generateSampleEvents(size_t nEvents) {
         e.id = static_cast<int>(i);
 
         // Create a fixed number of particles per event
-        e.particles.resize(100);
+        e.particles.resize(1000000);
         for (size_t p = 0; p < e.particles.size(); ++p) {
             Particle part;
             part.px = 0.1 * static_cast<double>(p);
