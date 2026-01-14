@@ -24,11 +24,10 @@ void EventProcessor::processEvent(const Event& event) {
 }
 
 void EventProcessor::processEvents(const std::vector<Event>& events) {
-    struct alignas(64) Totals { int tracks; double energy; };
-    //struct Totals { int tracks; double energy; };
-    std::vector<Totals> totals(omp_get_max_threads(), Totals{0, 0.0});
     int tracks = 0;
     double energy = 0.0;
+    struct Totals { int tracks; double energy; };
+    std::vector<Totals> totals(omp_get_max_threads(), Totals{0, 0.0});
 
     #pragma omp parallel
     {
@@ -46,6 +45,8 @@ void EventProcessor::processEvents(const std::vector<Event>& events) {
     tracks += t.tracks;
     energy += t.energy;
     }
+    m_totalTracks += tracks;
+    m_totalEnergy += energy;
 }
 
 void EventProcessor::reset() {
@@ -62,7 +63,7 @@ std::vector<Event> EventProcessor::generateSampleEvents(size_t nEvents) {
         e.id = static_cast<int>(i);
 
         // Create a fixed number of particles per event
-        e.particles.resize(1000000);
+        e.particles.resize(100000);
         for (size_t p = 0; p < e.particles.size(); ++p) {
             Particle part;
             part.px = 0.1 * static_cast<double>(p);
