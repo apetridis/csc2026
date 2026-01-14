@@ -26,7 +26,7 @@ void EventProcessor::processEvent(const Event& event) {
 void EventProcessor::processEvents(const std::vector<Event>& events) {
     int tracks = 0;
     double energy = 0.0;
-    struct Totals { int tracks; double energy; };
+    struct alignas(64) Totals { int tracks; double energy; };
     std::vector<Totals> totals(omp_get_max_threads(), Totals{0, 0.0});
 
     #pragma omp parallel
